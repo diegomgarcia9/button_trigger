@@ -40,7 +40,7 @@
     btn.innerText = "Generating...";
 
     try {
-      const res = await fetch("https://video-orchestrator-api.onrender.com", {
+      const res = await fetch("https://video-orchestrator-api.onrender.com/start", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
