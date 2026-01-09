@@ -41,12 +41,7 @@
 
     try {
       const res = await fetch("https://video-orchestrator-api.onrender.com/start", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "generate_video",
-          timestamp: Date.now()
-        })
+        method: "POST"
       });
 
       if (!res.ok) throw new Error("Request failed");
