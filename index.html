@@ -9,6 +9,7 @@
       height: 100vh;
       align-items: center;
       justify-content: center;
+      gap: 20px; /* NEW: space between buttons */
       font-family: system-ui, sans-serif;
       background: #0f172a;
     }
@@ -22,6 +23,9 @@
       background: #22c55e;
       color: #000;
     }
+    button.secondary {
+      background: #38bdf8; /* blue for tagging */
+    }
     button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
@@ -30,26 +34,48 @@
 </head>
 <body>
 
-<button id="generate">Generate</button>
+<button id="generate">Generate Video</button>
+<button id="tag" class="secondary">Generate Tags</button>
 
 <script>
-  const btn = document.getElementById("generate");
+  const generateBtn = document.getElementById("generate");
+  const tagBtn = document.getElementById("tag");
 
-  btn.onclick = async () => {
-    btn.disabled = true;
-    btn.innerText = "Generating...";
+  // ===== VIDEO GENERATION =====
+  generateBtn.onclick = async () => {
+    generateBtn.disabled = true;
+    generateBtn.innerText = "Generating...";
 
     try {
-      const res = await fetch("https://video-orchestrator-api.onrender.com/start", {
-        method: "POST"
-      });
+      const res = await fetch(
+        "https://video-orchestrator-api.onrender.com/start",
+        { method: "POST" }
+      );
 
       if (!res.ok) throw new Error("Request failed");
-
-      btn.innerText = "Queued ✅";
+      generateBtn.innerText = "Queued ✅";
     } catch (e) {
-      btn.innerText = "Error ❌";
-      btn.disabled = false;
+      generateBtn.innerText = "Error ❌";
+      generateBtn.disabled = false;
+    }
+  };
+
+  // ===== TAG GENERATION =====
+  tagBtn.onclick = async () => {
+    tagBtn.disabled = true;
+    tagBtn.innerText = "Tagging...";
+
+    try {
+      const res = await fetch(
+        "https://YOUR-TAGGING-WEBHOOK.onrender.com/webhook", // 👈 PLACEHOLDER
+        { method: "POST" }
+      );
+
+      if (!res.ok) throw new Error("Request failed");
+      tagBtn.innerText = "Queued ✅";
+    } catch (e) {
+      tagBtn.innerText = "Error ❌";
+      tagBtn.disabled = false;
     }
   };
 </script>
