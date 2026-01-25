@@ -9,7 +9,7 @@
       height: 100vh;
       align-items: center;
       justify-content: center;
-      gap: 20px; /* NEW: space between buttons */
+      gap: 20px;
       font-family: system-ui, sans-serif;
       background: #0f172a;
     }
@@ -24,7 +24,7 @@
       color: #000;
     }
     button.secondary {
-      background: #38bdf8; /* blue for tagging */
+      background: #38bdf8;
     }
     button:disabled {
       opacity: 0.6;
@@ -36,10 +36,12 @@
 
 <button id="generate">Generate Video</button>
 <button id="tag" class="secondary">Generate Tags</button>
+<button id="batch" class="secondary">Batch Tag Videos</button>
 
 <script>
   const generateBtn = document.getElementById("generate");
   const tagBtn = document.getElementById("tag");
+  const batchBtn = document.getElementById("batch");
 
   // ===== VIDEO GENERATION =====
   generateBtn.onclick = async () => {
@@ -60,7 +62,7 @@
     }
   };
 
-  // ===== TAG GENERATION =====
+  // ===== SINGLE TAG GENERATION =====
   tagBtn.onclick = async () => {
     tagBtn.disabled = true;
     tagBtn.innerText = "Tagging...";
@@ -76,6 +78,25 @@
     } catch (e) {
       tagBtn.innerText = "Error ❌";
       tagBtn.disabled = false;
+    }
+  };
+
+  // ===== BATCH TAG GENERATION =====
+  batchBtn.onclick = async () => {
+    batchBtn.disabled = true;
+    batchBtn.innerText = "Batch tagging...";
+
+    try {
+      const res = await fetch(
+        "https://video-tagging-ygw4.onrender.com/webhook",
+        { method: "POST" }
+      );
+
+      if (!res.ok) throw new Error("Request failed");
+      batchBtn.innerText = "Queued ✅";
+    } catch (e) {
+      batchBtn.innerText = "Error ❌";
+      batchBtn.disabled = false;
     }
   };
 </script>
